@@ -3,5 +3,5 @@
   * [page (at pubs.acs.org)](https://pubs.acs.org/doi/10.1021/jp953350u)
   * [correction (pdf)](https://pubs.acs.org/doi/pdf/10.1021/jp9833350)
 
-# Acknowledgement:
+## Acknowledgement
 This program is written severely referencing [google/spherical-harmonics](https://github.com/google/spherical-harmonics).
