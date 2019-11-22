@@ -34,6 +34,11 @@ Eigen::Matrix3d RotZ(const double x)
     return rotation;
 }
 
+inline Eigen::Matrix3d RotZYZ(const double alpha, const double beta, const double gamma)
+{
+    return RotZ(gamma) * RotY(beta) * RotZ(alpha);
+}
+
 inline double Rsref(const std::vector<Eigen::MatrixXd>& Rs, const int l, const int m, const int mp)
 {
     assert(std::abs(m) <= l);
@@ -169,7 +174,7 @@ RMat::RMat(const int lmax, const double alpha, const double beta, const double g
     // l == 0
     Rs[0] = Eigen::MatrixXd::Identity(1, 1);
     // l == 1
-    Eigen::Matrix3d rotation = RotZ(gamma) * RotY(beta) * RotZ(alpha);
+    Eigen::Matrix3d rotation = RotZYZ(alpha, beta, gamma);
     Rs[1].resize(3, 3);
     Rs[1] << rotation(1, 1), rotation(1, 2), rotation(1, 0),
              rotation(2, 1), rotation(2, 2), rotation(2, 0),
