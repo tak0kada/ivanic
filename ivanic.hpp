@@ -7,7 +7,7 @@
 #include <cassert>
 #include <eigen3/Eigen/Core>
 
-Eigen::Matrix3d RotX(const double x)
+inline Eigen::Matrix3d RotX(const double x)
 {
     Eigen::Matrix3d rotation;
     rotation << 1,           0,            0,
@@ -16,7 +16,7 @@ Eigen::Matrix3d RotX(const double x)
     return rotation;
 }
 
-Eigen::Matrix3d RotY(const double x)
+inline Eigen::Matrix3d RotY(const double x)
 {
     Eigen::Matrix3d rotation;
     rotation <<  std::cos(x), 0, std::sin(x),
@@ -25,7 +25,7 @@ Eigen::Matrix3d RotY(const double x)
     return rotation;
 }
 
-Eigen::Matrix3d RotZ(const double x)
+inline Eigen::Matrix3d RotZ(const double x)
 {
     Eigen::Matrix3d rotation;
     rotation << std::cos(x), -std::sin(x), 0,
@@ -48,7 +48,7 @@ inline double Rsref(const std::vector<Eigen::MatrixXd>& Rs, const int l, const i
 }
 
 // use Rsref to avoid calculating l
-double Rref(const Eigen::MatrixXd& R, const int m, const int mp)
+inline double Rref(const Eigen::MatrixXd& R, const int m, const int mp)
 {
     const int l = (R.cols() - 1) / 2;
     assert(std::abs(m) <= l);
@@ -57,7 +57,7 @@ double Rref(const Eigen::MatrixXd& R, const int m, const int mp)
     return R(m + l, mp + l);
 }
 
-double P(const int i, const std::vector<Eigen::MatrixXd>& Rs, const int l, const int m, const int mp)
+inline double P(const int i, const std::vector<Eigen::MatrixXd>& Rs, const int l, const int m, const int mp)
 {
     assert(i == -1 || i == 0 || i == 1);
     assert(std::abs(m) <= l);
@@ -77,7 +77,7 @@ double P(const int i, const std::vector<Eigen::MatrixXd>& Rs, const int l, const
     }
 }
 
-double U(const std::vector<Eigen::MatrixXd>& Rs, const int l, const int m, const int mp)
+inline double U(const std::vector<Eigen::MatrixXd>& Rs, const int l, const int m, const int mp)
 {
     assert(std::abs(m) <= l);
     assert(std::abs(mp) <= l);
@@ -85,7 +85,7 @@ double U(const std::vector<Eigen::MatrixXd>& Rs, const int l, const int m, const
     return P(0, Rs, l, m, mp);
 }
 
-double V(const std::vector<Eigen::MatrixXd>& Rs, const int l, const int m, const int mp)
+inline double V(const std::vector<Eigen::MatrixXd>& Rs, const int l, const int m, const int mp)
 {
     assert(std::abs(m) <= l);
     assert(std::abs(mp) <= l);
@@ -104,7 +104,7 @@ double V(const std::vector<Eigen::MatrixXd>& Rs, const int l, const int m, const
     }
 }
 
-double W(const std::vector<Eigen::MatrixXd>& Rs, const int l, const int m, const int mp)
+inline double W(const std::vector<Eigen::MatrixXd>& Rs, const int l, const int m, const int mp)
 {
     assert(std::abs(m) <= l);
     assert(std::abs(mp) <= l);
@@ -163,7 +163,7 @@ struct RMat
     std::vector<double> operator*(const std::vector<double>& coef) const;
 };
 
-RMat::RMat(const int lmax, const double alpha, const double beta, const double gamma)
+inline RMat::RMat(const int lmax, const double alpha, const double beta, const double gamma)
 : lmax(lmax), alpha(alpha), beta(beta), gamma(gamma)
 {
     if (static_cast<int>(Rs.size()) != lmax + 1)
@@ -194,7 +194,7 @@ RMat::RMat(const int lmax, const double alpha, const double beta, const double g
     }
 }
 
-std::vector<double> RMat::operator*(const std::vector<double>& coef) const
+inline std::vector<double> RMat::operator*(const std::vector<double>& coef) const
 {
     assert(coef.size() == std::pow(lmax + 1, 2));
 
@@ -220,7 +220,7 @@ std::vector<double> RMat::operator*(const std::vector<double>& coef) const
     return ret;
 }
 
-std::ostream& operator<<(std::ostream& os, const RMat& mat)
+inline std::ostream& operator<<(std::ostream& os, const RMat& mat)
 {
     for (int l = 0; l < mat.lmax + 1; ++l)
     {
